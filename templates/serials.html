@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Movies{% endblock %}
+{% block cssLink %} <link rel="stylesheet" href="/static/general.css"> {% endblock %}
+
+{% block content %}
+    <main>
+        {% for serial in serials %}
+            <div class="box">
+                <p>{{ serial.name }} - {{ serial.date }}</p>
+                <div>
+                    <a href="/edit/serial/{{ serial.id }}" class="edit">რედაქტირება</a>
+                    <a href="/delete/serial/{{ serial['id'] }}">წაშლა</a>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}

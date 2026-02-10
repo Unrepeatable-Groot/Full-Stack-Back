@@ -1,0 +1,8 @@
+@use "./header.scss";
+@use "./footer.scss";
+
+body {
+    margin: 0px;
+    min-height: 140vh; 
+    position: relative;
+}   

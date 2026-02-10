@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Movies{% endblock %}
+{% block cssLink %} <link rel="stylesheet" href="/static/general.css"> {% endblock %}
+
+{% block content %}
+    <main>
+        {% for movie in movies %}
+            <div class="box">
+                <p>{{ movie.name }} - {{ movie.date }}</p>
+                <div>
+                    <a href="/edit/movie/{{ movie.id }}" class="edit">რედაქტირება</a>
+                    <a href="/delete/movie/{{ movie.id }}">წაშლა</a>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Add Movie{% endblock %}
+{% block cssLink %} <link rel="stylesheet" href="/static/addMovie.css"> {% endblock %}
+
+{% block content %}
+    <form method="POST" class="Form">
+        {{ form.hidden_tag() }}
+        <h2>{{ title }}</h2>
+
+        {{ form.name.label }}
+        {{ form.name(class="form-control") }}
+
+        {{ form.image.label }}
+        {{ form.image(class="form-control") }}
+
+        {{ form.date.label }}
+        {{ form.date(class="form-control") }}
+
+        {{ form.genre.label }}
+        {{ form.genre(class="form-control") }}
+
+        {{ form.director.label }}
+        {{ form.director(class="form-control") }}
+
+        {{ form.actors.label }}
+        {{ form.actors(class="form-control") }}
+
+        {{ form.description.label }}
+        {{ form.description(class="form-control") }}
+
+        {{ form.save }}
+    </form>
+{% endblock %}
