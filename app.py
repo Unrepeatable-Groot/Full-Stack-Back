@@ -10,6 +10,12 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/health")
+def health():
+    return {"status": "ok"}
+
+
+
 @app.route("/api/movies")
 def api_movies():
     movies = Movies.query.all()
