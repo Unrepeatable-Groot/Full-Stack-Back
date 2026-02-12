@@ -2,8 +2,10 @@ from flask import render_template, redirect, request, abort, url_for, jsonify
 from models import Movies, Animations, Serials
 from form import MovieForm, AnimationForm, SerialForm, BaseMediaForm
 from ext import app, dataBase
+from difflib import SequenceMatcher
 
-
+def similar(a, b):
+    return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 @app.route("/")
 def home():
@@ -61,6 +63,7 @@ def api_animations():
     } for animation in animations]
     return animations_list
 
+
 @app.route("/api/animations/name/<string:name>")
 def get_animation_by_name(name):
     animation = Animations.query.filter_by(name=name).first()
@@ -107,6 +110,59 @@ def get_serial_by_name(name):
         "actors": serial.actors
     })
 
+
+@app.route("/api/search")
+def api_search():
+    query = request.args.get("q", "").lower()
+
+    if not query:
+        return []
+
+    results = []
+
+    movies = Movies.query.all()
+    for movie in movies:
+        if query in movie.name.lower() or similar(query, movie.name) > 0.6:
+            results.append({
+                "type": "movie",
+                "name": movie.name,
+                "image": movie.image,
+                "date": movie.date,
+                "genre": movie.genre,
+                "director": movie.director,
+                "description": movie.description,
+                "actors": movie.actors
+            })
+
+    animations = Animations.query.all()
+    for animation in animations:
+        if query in animation.name.lower() or similar(query, animation.name) > 0.6:
+            results.append({
+                "type": "animation",
+                "name": animation.name,
+                "image": animation.image,
+                "date": animation.date,
+                "genre": animation.genre,
+                "director": animation.director,
+                "description": animation.description,
+                "actors": animation.actors
+            })
+
+    serials = Serials.query.all()
+    for serial in serials:
+        if query in serial.name.lower() or similar(query, serial.name) > 0.6:
+            results.append({
+                "type": "serial",
+                "name": serial.name,
+                "image": serial.image,
+                "date": serial.date,
+                "genre": serial.genre,
+                "director": serial.director,
+                "description": serial.description,
+                "actors": serial.actors
+            })
+
+    return results
 
 
 @app.route("/add/<media_type>", methods=["GET", "POST"])
